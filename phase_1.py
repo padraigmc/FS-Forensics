@@ -1,8 +1,8 @@
 class FileSystem:
 	def __init__(self, file_path):
 		self.file_path = file_path
-		self.partitions = self.read_partitions()
 		self.valid_partitions = 0
+		self.partitions = self.read_partitions()
 	
 	def read_partitions(self):
 		partitions = []
@@ -30,6 +30,7 @@ class FileSystem:
 			)
 			
 			if partition.is_valid_partition():
+				print(self.file_path)
 				self.valid_partitions += 1
 			
 			partitions.append(partition)
@@ -37,7 +38,7 @@ class FileSystem:
 		file.close()
 		
 		return partitions
-	
+
 	def print_partition_information(self):
 		for index, partition in enumerate(self.partitions):
 			print('-------------------')
