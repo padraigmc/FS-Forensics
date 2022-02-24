@@ -3,5 +3,4 @@ from phase_1 import BinaryFile, FileSystem
 
 if __name__ == '__main__':
 	fs = FileSystem(r'C:\repos\FS-Forensics\Sample_1.dd')
-	print(fs.print_partition_information())
-
+	fs.print_partition_information()
