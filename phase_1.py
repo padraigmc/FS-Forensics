@@ -30,7 +30,6 @@ class FileSystem:
 			)
 			
 			if partition.is_valid_partition():
-				print(self.file_path)
 				self.valid_partitions += 1
 			
 			partitions.append(partition)
@@ -100,7 +99,7 @@ class BinaryFile:
 	def seek(self, offset):
 		self.file.seek(offset)
 	
-	def read(self, size, offset=None):
+	def read(self, size, offset=None, output_format='h'):
 		block = []
 		
 		# if offset provided, seek
@@ -111,10 +110,15 @@ class BinaryFile:
 			byte = self.file.read(1)
 			byte = byte.hex()
 			block.append(byte)
-		
-		block = reversed(block)
-		
-		return ''.join(block)
+
+		# reverse block for little endian translation and convert to string
+		block = ''.join(reversed(block))
+
+		# if dec_output flag set, convert to decimal int
+		if output_format == 'd':
+			return int(block, 16)
+		else:  # output_format == 'h'
+			return block
 	
 	def close(self):
 		self.file.close()
