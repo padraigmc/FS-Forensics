@@ -30,7 +30,6 @@ class FileSystem:
 			)
 			
 			if partition.is_valid_partition():
-				print(self.file_path)
 				self.valid_partitions += 1
 			
 			partitions.append(partition)
