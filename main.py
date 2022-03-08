@@ -1,6 +1,6 @@
-from phase_1 import FileSystem
+from phase_1 import DiskDrive
 
 
 if __name__ == '__main__':
-	fs = FileSystem(r'D:\repos\ET4027\FS-Forensics\Sample_1.dd')
+	fs = DiskDrive(r'D:\repos\ET4027\AssignmentDrive\et4027.dd')
 	fs.print_partition_information()

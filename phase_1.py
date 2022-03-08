@@ -1,4 +1,4 @@
-class FileSystem:
+class DiskDrive:
 	def __init__(self, file_path):
 		self.file_path = file_path
 		self.valid_partitions = 0
