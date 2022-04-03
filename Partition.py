@@ -1,12 +1,64 @@
-from phase_1 import BinaryFile
+from BinaryFile import BinaryFile
 
 
-class NTFS:
-    def __init__(self, file_path, start_sector):
+class PartitionFactory:
+    @staticmethod
+    def get_partition(file_path: BinaryFile, partition_type, start_sector, size):
+        if partition_type == '07':
+            return NTFS(file_path, start_sector, partition_type, size)
+        else:
+            return Partition(partition_type, start_sector, size)
+
+
+class Partition:
+    def __init__(self, partition_type, start_sector, size):
+        self.partition_type = partition_type.upper()
+        self.start_sector = int(start_sector, base=16)
+        self.size = size
+    
+    def get_partition_type(self):
+        if self.partition_type == '00':
+            return 'Unknown'
+        elif self.partition_type == '01':
+            return '12-bit FAT'
+        elif self.partition_type == '04':
+            return '16-bit FAT'
+        elif self.partition_type == '05':
+            return 'Extended MS-DOS Partition'
+        elif self.partition_type == '06':
+            return 'FAT-16'
+        elif self.partition_type == '07':
+            return 'NTFS'
+        elif self.partition_type == '0B':
+            return 'FAT-32 (CHS)'
+        elif self.partition_type == '0C':
+            return 'FAT-32 (LBA)'
+        elif self.partition_type == '0E':
+            return 'FAT-16 (LBA)'
+        else:
+            return 'Undefined'
+    
+    def print_info(self):
+        size = int(self.size, base=16)
+        
+        print(f'Partition Type = {self.get_partition_type()}')
+        print(f'Start Sector = {self.start_sector} ')
+        print(f'Size = {size}')
+    
+    def is_valid_partition(self):
+        if self.partition_type == '00':
+            return False
+        else:
+            return True
+
+
+class NTFS(Partition):
+    def __init__(self, file_path, start_sector, partition_type, size):
+        super().__init__(partition_type, start_sector, size)
         file = BinaryFile(file_path)
 
         self.file_path = file_path
-        self.start_sector = start_sector
+        self.start_sector = int(start_sector, base=16)
         self.start_byte = self.start_sector * 512
 
         # seek to start of BPB
@@ -34,6 +86,11 @@ class NTFS:
     def print_info(self):
         print('NTFS Volume Information')
         print('-----------------------')
+        size = int(self.size, base=16)
+
+        print(f'Partition Type = {self.get_partition_type()}')
+        print(f'Start Sector = {self.start_sector} ')
+        print(f'Size = {size}')
 
         self.print_bpb_info()
         self.print_attribute_info()
