@@ -45,9 +45,9 @@ class DiskDrive:
 
 	def print_partition_information(self):
 		for index, partition in enumerate(self.partitions):
-			print('-------------------')
+			print('===================')
 			print(f'Partition {index}')
-			print('-------------------')
+			print('===================')
 			partition.print_info()
 			print('')
 		
